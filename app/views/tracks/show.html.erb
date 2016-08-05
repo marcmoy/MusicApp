@@ -1,0 +1,9 @@
+<h1><%= @track.name %></h1>
+<h2>by <%= @track.band.name %></h2>
+
+<p>
+  <%= @track.lyrics %>
+</p>
+
+<br>
+<%= button_to "Delete Track", band_album_track(@track.band.id, @track.album.id, @track.id), method: :delete %>

@@ -1,0 +1,42 @@
+<%= link_to "Back to #{@band.name} albums", band_url(@band.id) %>
+
+<h1><%= @album.name %></h1>
+<h2>by <%= @album.band.name %> </h2>
+
+<table>
+  <tr>
+    <% Track.column_data_headers.each do |column_header| %>
+    <th>
+      <%= column_header %>
+    </th>
+    <% end %>
+  </tr>
+
+  <% @album.tracks.each do |track| %>
+    <tr align='center'>
+
+    <% Track.column_data.each do |col| %>
+      <td>
+        <% if col == 'name' %>
+          <%=
+            link_to "#{track.send(col)}",
+            band_album_track_url(@band.id, @album.id, track.id),
+            method: :get %>
+        <% else %>
+          <%= track.send(col) %>
+        <% end %>
+      </td>
+    <% end %>
+
+    </tr>
+  <% end %>
+
+</table>
+<br>
+
+<% if signed_in? %>
+  <%= button_to "Add Track",
+    new_band_album_track_url(params[:band_id],
+    params[:id]),
+    method: :get %>
+<% end %>

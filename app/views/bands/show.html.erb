@@ -1,0 +1,44 @@
+<%= link_to "Back to All Bands", bands_url %>
+
+<h1><%= @band.name %></h1>
+
+<table>
+  <tr>
+    <% Album.column_data_headers.each do |column_header| %>
+    <th>
+      <%= column_header %>
+    </th>
+    <% end %>
+  </tr>
+
+  <% @band.albums.each do |album| %>
+    <tr align='center'>
+
+    <% Album.column_data.each do |col| %>
+      <td>
+        <% if col == 'name' %>
+          <%=
+            link_to "#{album.send(col)}",
+            band_album_url(album.band_id, album.id),
+            method: :get %>
+        <% else %>
+          <%= album.send(col) %>
+        <% end %>
+      </td>
+    <% end %>
+
+    </tr>
+  <% end %>
+
+</table>
+
+<% if signed_in? %>
+  <%= link_to "Add an Album",
+      new_band_album_url(@band.id),
+      method: :get %>
+  <br><br>
+  <%= button_to "Delete Band",
+      band_url(@band.id),
+      method: :delete,
+      data: {confirm: "Are you sure?"} %>
+<% end %>

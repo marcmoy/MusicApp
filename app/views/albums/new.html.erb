@@ -1,0 +1,39 @@
+<%= link_to "Back to #{@band.name} albums", band_url(@band) %>
+
+<h1>New Album</h1>
+
+<form action="<%= band_albums_url %>" method="post">
+  <input
+    type="hidden"
+    name="authenticity_token"
+    value="<%= form_authenticity_token %>">
+
+  <label for="album_name">Name:</label>
+  <input type="text" name="album[name]" id="album_name">
+  <br>
+
+  <label for="album_band">Band:</label>
+  <select name="album[band_id]" id="album_band">
+    <% @bands.each do |band| %>
+      <option value="<%= band.id %>"
+      <%= "selected" if @band.id == band.id %>><%= band.name %></option>
+    <% end %>
+  </select>
+  <br>
+
+  <% Album::ALBUM_TYPES.each do |type| %>
+    <label for="<%=type%>"><%= type %></label>
+    <input type="radio" name="album[album_type]" value="<%= type %>">
+  <% end %>
+  <br>
+
+  <label for="album_year">Year:</label>
+  <select name="album[year]" id="album_year">
+    <% Album::years.each do |year| %>
+      <option value="<%= year %>"><%= year %></option>
+    <% end %>
+  </select>
+  <br>
+
+  <input type="Submit", value="Add album!">
+</form>
